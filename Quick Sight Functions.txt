@@ -1,0 +1,58 @@
+Date Functions:-
+====================
+extract("MM",{datefield})  ----Extracts Month Num from the give date
+extract("YYYY",datefield) 	   --- Extracts year from the date
+left(formatDate({datefield},'MMM-dd-yyyy'),3) --- To get month name from given date (Jan)
+
+
+
+
+extract(period, date)
+
+period
+The period that you want extracted from the date value. Valid periods are as follows:
+
+YYYY: This returns the year portion of the date.
+
+Q: This returns the quarter that the date belongs to (1–4).
+
+MM: This returns the month portion of the date.
+
+DD: This returns the day portion of the date.
+
+WD: This returns the day of the week as an integer, with Sunday as 1.
+
+HH: This returns the hour portion of the date.
+
+MI: This returns the minute portion of the date.
+
+SS: This returns the second portion of the date.
+
+MS: This returns the millisecond portion of the date.
+
+
+--To extract week names from given date filed
+
+switch(extract('WD',{Order Date}),1,"Sunday",2,"Monday",3,"Tuesday",4, "Wednesday", 5, "Thursday", 6, "Friday", 7, "Saturday","")
+
+switch(extract('WD',{Order Date}),1,"Sun",2,"Mon",3,"Tues",4, "Wed", 5, "Thu", 6, "Fri", 7, "Sat","")
+
+
+--To extract Quarter names from the given date field
+
+concat('Q', toString(extract('Q', {Order_Date})));
+
+--Year to date sales
+sumIf({pm_net_sales_lcl}, extract("YYYY",{pm_date})= extract("YYYY", now()))
+
+--Month to date Sales
+
+ifelse(
+    extract('YYYY', {pm_date}) = extract('YYYY', now()) and
+    extract('MM', {pm_date}) = extract('MM', now()) and
+    extract('DD', {pm_date}) <= extract('DD', now()),
+    {pm_net_sales_lcl},
+    0
+)
+
+--
